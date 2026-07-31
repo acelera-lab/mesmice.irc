@@ -1,0 +1,39 @@
+{
+  "name": "@mesmice/crypto",
+  "version": "0.1.0",
+  "description": "Cryptographic primitives for Mesmice.IRC (hashing, keys, TOTP)",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/acelera-lab/mesmice.irc"
+  },
+  "keywords": [
+    "crypto",
+    "scrypt",
+    "ed25519",
+    "x25519",
+    "totp",
+    "mesmice"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "tweetnacl": "^1.0.3"
+  }
+}

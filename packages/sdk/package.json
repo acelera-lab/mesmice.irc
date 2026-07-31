@@ -1,0 +1,39 @@
+{
+  "name": "@mesmice/sdk",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for connecting to Mesmice.IRC servers",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/acelera-lab/mesmice.irc"
+  },
+  "keywords": [
+    "irc",
+    "sdk",
+    "client",
+    "chat",
+    "mesmice"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@mesmice/common": "^0.1.0",
+    "@mesmice/protocol": "^0.1.0"
+  }
+}

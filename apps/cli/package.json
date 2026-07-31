@@ -1,0 +1,50 @@
+{
+  "name": "mesmice",
+  "version": "0.1.10",
+  "description": "Mesmice.IRC - Modern, secure, privacy-focused IRC-inspired chat client",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "bin": {
+    "mesmice": "dist/index.cjs"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acelera-lab/mesmice.irc.git"
+  },
+  "keywords": [
+    "irc",
+    "chat",
+    "terminal",
+    "tui",
+    "messaging",
+    "privacy",
+    "self-hosted",
+    "mesmice"
+  ],
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "build": "node scripts/bundle.mjs",
+    "build:tsc": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.cjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "blessed": "^0.1.81"
+  },
+  "devDependencies": {
+    "@types/blessed": "^0.1.27",
+    "commander": "^13.0.0",
+    "esbuild": "^0.25.0",
+    "tsx": "^4.19.0"
+  }
+}

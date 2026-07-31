@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  nickname  String   @unique
+  password  String
+  bio       String?
+  publicKey String   @unique
+  avatarUrl String?
+  totpSecret String?
+  totpEnabled Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  members  Member[]
+  messages Message[]
+  invites  Invite[]  @relation("Inviter")
+  receivedInvites Invite[] @relation("Invitee")
+  sessions Session[]
+  keys     KeyPair[]
+  auditLogs AuditLog[]
+  ownedChannels Channel[]
+}
+
+model Channel {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  topic        String?
+  type         String   @default("public")
+  passwordHash String?
+  ownerId      String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  owner    User     @relation(fields: [ownerId], references: [id])
+  members  Member[]
+  messages Message[]
+  invites  Invite[]
+}
+
+model Member {
+  id        String   @id @default(cuid())
+  userId    String
+  channelId String
+  role      String   @default("member")
+  joinedAt  DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  channel Channel @relation(fields: [channelId], references: [id])
+
+  @@unique([userId, channelId])
+}
+
+model Message {
+  id        String    @id @default(cuid())
+  channelId String
+  senderId  String
+  content   String
+  type      String    @default("text")
+  encrypted Boolean   @default(false)
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+
+  channel Channel @relation(fields: [channelId], references: [id])
+  sender  User    @relation(fields: [senderId], references: [id])
+}
+
+model Invite {
+  id        String    @id @default(cuid())
+  channelId String
+  inviterId String
+  inviteeId String
+  uses      Int       @default(0)
+  maxUses   Int?
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+
+  channel Channel @relation(fields: [channelId], references: [id])
+  inviter User    @relation("Inviter", fields: [inviterId], references: [id])
+  invitee User    @relation("Invitee", fields: [inviteeId], references: [id])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  token        String   @unique
+  refreshToken String   @unique
+  ip           String?
+  userAgent    String?
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model KeyPair {
+  id                 String   @id @default(cuid())
+  userId             String
+  algorithm          String
+  publicKey          String   @unique
+  privateKeyEncrypted String
+  createdAt          DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String
+  action     String
+  targetType String?
+  targetId   String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model ServerConfig {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}

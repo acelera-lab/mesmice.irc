@@ -1,0 +1,31 @@
+{
+  "name": "mesmice.irc",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Modern, secure, privacy-focused IRC-inspired communication platform",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w @mesmice/common -w @mesmice/crypto -w @mesmice/protocol -w @mesmice/database -w @mesmice/ai -w @mesmice/sdk -w @mesmice/server -w mesmice",
+    "lint": "prettier --check .",
+    "test": "npm run test --workspaces",
+    "typecheck": "npm run typecheck --workspaces",
+    "clean": "npm run clean --workspaces",
+    "dev:server": "npm run dev -w apps/server",
+    "dev:cli": "npm run dev -w apps/cli",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "prettier": "^3.4.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "packageManager": "npm@10.0.0"
+}
